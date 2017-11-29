@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package kodama.protobuf.ping;
+option go_package = "github.com/katsew/kodama/protobuf/ping/pb";
+
+message Ping {}
+message Pong {}
+
+service PingService {
+    rpc Send (Ping) returns (Pong);
+}
