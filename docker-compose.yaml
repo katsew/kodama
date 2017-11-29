@@ -1,0 +1,34 @@
+version: "3"
+services:
+  client:
+    hostname: client
+    container_name: client
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - "LAUNCH_HOST=0.0.0.0"
+      - "LAUNCH_PORT=8080"
+      - "BACKEND_HOST=server"
+      - "BACKEND_PORT=9090"
+    command: "http client"
+    depends_on:
+      - "server"
+    ports:
+      - "8181:8080"
+    cap_add:
+      - NET_ADMIN
+  server:
+    hostname: server
+    container_name: server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - "LAUNCH_HOST=0.0.0.0"
+      - "LAUNCH_PORT=9090"
+    command: "http server"
+    ports:
+      - "8282:9090"
+    cap_add:
+      - NET_ADMIN
