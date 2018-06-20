@@ -1,4 +1,4 @@
-FROM golang:alpine AS build-machine
+FROM golang:alpine
 
 RUN apk --update add git openssh ca-certificates iptables && \
     rm -rf /var/lib/apt/lists/* && \
@@ -8,9 +8,9 @@ COPY . /go/src/github.com/katsew/kodama
 
 WORKDIR /go/src/github.com/katsew/kodama
 
-RUN go get -u github.com/golang/dep/cmd/dep
+RUN go get github.com/golang/dep/cmd/dep
 RUN dep ensure
 RUN go install
 
-ENTRYPOINT ["/go/bin/kodama"]
+ENTRYPOINT ["kodama"]
 CMD ["http", "server"]
