@@ -8,8 +8,7 @@ COPY . /go/src/github.com/katsew/kodama
 
 WORKDIR /go/src/github.com/katsew/kodama
 
-RUN go-wrapper download
-RUN go-wrapper install
+RUN go install
 
 FROM alpine:latest
 
