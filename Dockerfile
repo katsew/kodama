@@ -8,6 +8,8 @@ COPY . /go/src/github.com/katsew/kodama
 
 WORKDIR /go/src/github.com/katsew/kodama
 
+RUN go get -u github.com/golang/dep/cmd/dep
+RUN dep ensure
 RUN go install
 
 ENTRYPOINT ["/go/bin/kodama"]

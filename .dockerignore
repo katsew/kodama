@@ -72,3 +72,4 @@ fabric.properties
 /**/*.proto
 /**/*.sh
 /**/tmp
+/**/vendor
