@@ -16,8 +16,6 @@ services:
       - "server"
     ports:
       - "8181:8080"
-    cap_add:
-      - NET_ADMIN
   server:
     hostname: server
     container_name: server
@@ -30,5 +28,4 @@ services:
     command: "http server"
     ports:
       - "8282:9090"
-    cap_add:
-      - NET_ADMIN
+
