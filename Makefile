@@ -9,3 +9,7 @@ down:
 .PHONY: dev
 dev:
 	docker-compose up -d --build
+
+.PHONY: build
+build:
+	docker build . -t katsew/kodama:latest
