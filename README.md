@@ -1,16 +1,10 @@
 # kodama
 
-Go echo client/server application for testing connectivity of servers(and containers) with ease.
+Simple echo client/server application for testing connectivity of containers(or k8s pods) with ease.
 
 # Docker image
 
-https://cloud.docker.com/swarm/katsew/repository/docker/katsew/kodama/general
-
-# Installation
-
-```
-go get github.com/katsew/kodama
-```
+docker pull katsew/kodama:latest
 
 # Usage
 
@@ -29,6 +23,12 @@ e.g. kodama http server
 
 - client
 - server
+
+# Development
+
+```
+go get github.com/katsew/kodama
+```
 
 # License
 
