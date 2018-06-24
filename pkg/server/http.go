@@ -11,10 +11,16 @@ type SimpleHTTPServer struct{}
 
 func (s *SimpleHTTPServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
+	log.Printf("Requested URL: %s", r.URL.String())
 	if r.URL.Path == "/healthz" {
-		log.Print("Server status: Healthy")
 		w.WriteHeader(http.StatusOK)
 		return
+	}
+	if r.URL.Path == "/panic" {
+		log.Panic("panic occurred, auto recover server")
+	}
+	if r.URL.Path == "/fatal" {
+		log.Fatal("fatal error occurred, shutdown server")
 	}
 
 	log.Printf("Got request, send back to client.")

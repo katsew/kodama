@@ -18,13 +18,36 @@ func (s *SimpleHTTPServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("Request URL: %s", r.URL.String())
 	if r.URL.Path == "/healthz" {
-		log.Print("Server status: Healthy")
 		w.WriteHeader(http.StatusOK)
 		return
 	}
+	if r.URL.Path == "/panic" {
+		log.Panic("client not sent request, panic occurred, auto recover client")
+	}
+	if r.URL.Path == "/fatal" {
+		log.Fatal("client not sent request, fatal error occurred, shutdown client")
+	}
 
 	cli := http.Client{Timeout: 10 * time.Second}
-	res, err := cli.Get(s.reqUrl)
+
+	var res *http.Response
+	var err error
+	var reqUrl = s.reqUrl
+
+	switch r.URL.Path {
+	case "/server/healthz":
+		log.Print("check backend server health")
+		reqUrl = fmt.Sprintf("%s/%s", reqUrl, "healthz")
+	case "/server/fatal":
+		log.Print("make backend server fatal")
+		reqUrl = fmt.Sprintf("%s/%s", reqUrl, "fatal")
+	case "/server/panic":
+		log.Print("make backend server panic")
+		reqUrl = fmt.Sprintf("%s/%s", reqUrl, "panic")
+	default:
+		reqUrl = fmt.Sprintf("%s%s", reqUrl, r.URL.Path)
+	}
+	res, err = cli.Get(reqUrl)
 	if err != nil {
 		log.Printf("Failed to get: %s", errors.WithStack(err).Error())
 		w.Write([]byte(err.Error()))
@@ -37,8 +60,8 @@ func (s *SimpleHTTPServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(err.Error()))
 		return
 	}
-	log.Printf("Success send response: %s", b)
-	resText := fmt.Sprintf("Response sent from server: %s", b)
+
+	resText := fmt.Sprintf("Receive response from server: %s", b)
 	w.Write([]byte(resText))
 
 }
