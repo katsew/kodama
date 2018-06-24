@@ -13,7 +13,7 @@ RUN go install
 FROM alpine:latest
 
 COPY --from=builder /go/bin/kodama /usr/local/bin/kodama
-RUN apk --update add ca-certificates iptables && \
+RUN apk --update add ca-certificates iptables curl && \
     rm -rf /var/lib/apt/lists/* && \
     rm /var/cache/apk/*
 
