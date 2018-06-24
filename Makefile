@@ -13,3 +13,7 @@ dev:
 .PHONY: build
 build:
 	docker build . -t katsew/kodama:latest
+
+.PHONY: release
+release:
+	docker push katsew/kodama:latest
